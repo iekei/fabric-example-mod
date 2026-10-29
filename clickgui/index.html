@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Iekei Client · ClickGUI</title>
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <!-- animated in-game backdrop -->
+  <div class="bg" aria-hidden="true"></div>
+  <div class="bg-tint" aria-hidden="true"></div>
+  <div class="bg-scan" aria-hidden="true"></div>
+
+  <!-- hint shown while the GUI is closed -->
+  <div class="closed-hint" id="closedHint">
+    <div class="mark" id="closedMark"></div>
+    <h2>Iekei Client</h2>
+    <p>ClickGUI is hidden</p>
+    <button class="pill" id="openFromHint">
+      <span class="kbd accent">[ Right Shift ]</span>
+      <span>to Toggle Menu</span>
+    </button>
+  </div>
+
+  <div class="stage">
+    <div class="shell" id="shell" role="application" aria-label="Iekei Client ClickGUI">
+      <div class="glass" aria-hidden="true"></div>
+      <div class="veil" aria-hidden="true"></div>
+
+      <!-- ============ sidebar ============ -->
+      <aside class="sidebar">
+        <div class="brand">
+          <div class="mark" id="brandMark"></div>
+          <div class="brand-text">
+            <div class="brand-name">IEKEI<span>.</span></div>
+            <div class="brand-sub">Client · Fabric</div>
+          </div>
+        </div>
+
+        <div class="nav-block">
+          <div class="nav-label">Categories</div>
+          <nav class="nav" id="nav" aria-label="Module categories"></nav>
+        </div>
+
+        <div class="sidebar-foot">
+          <div class="keybind-card">
+            <div class="row">
+              <span class="cap">Toggle GUI</span>
+              <span class="kbd accent" id="sideKeyLabel">Right Shift</span>
+            </div>
+            <div class="hint" id="sideKeyHint">[Right Shift] to Toggle Menu</div>
+          </div>
+          <div class="keybind-card">
+            <div class="row">
+              <span class="cap">Accent</span>
+              <span class="swatch-row" id="sideSwatches"></span>
+            </div>
+          </div>
+        </div>
+      </aside>
+
+      <!-- ============ main ============ -->
+      <main class="main">
+        <header class="header">
+          <div class="header-title">
+            <h1><span class="dot"></span>ClickGUI</h1>
+            <div class="toggle-hint">
+              <span class="kbd" id="headKeyLabel">[ Right Shift ]</span>
+              <span>to Toggle Menu</span>
+            </div>
+          </div>
+
+          <label class="search-wrap" for="search">
+            <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="m20.5 20.5-4.4-4.4"/></svg>
+            <input id="search" type="text" placeholder="Search modules..." autocomplete="off" spellcheck="false" aria-label="Search modules" />
+            <span class="search-count" id="searchCount"></span>
+            <span class="kbd" aria-hidden="true">/</span>
+          </label>
+
+          <div class="header-actions">
+            <button class="ghost-btn" id="themeBtn" aria-expanded="false" aria-controls="themePanel">
+              <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r=".8"/><circle cx="17.5" cy="10.5" r=".8"/><circle cx="8.5" cy="7.5" r=".8"/><circle cx="6.5" cy="12.5" r=".8"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.93 0 1.65-.75 1.65-1.69 0-.44-.18-.83-.44-1.12-.29-.29-.44-.65-.44-1.13a1.64 1.64 0 0 1 1.67-1.67h2c3.05 0 5.55-2.5 5.55-5.55C21.97 6.01 17.46 2 12 2Z"/></svg>
+              <span>Theme</span>
+            </button>
+            <button class="ghost-btn icon-only" id="closeBtn" aria-label="Close menu" title="Close menu (Esc)">
+              <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+            </button>
+          </div>
+        </header>
+
+        <div class="content" id="content"></div>
+
+        <footer class="statusbar">
+          <span class="live"><span class="pulse-dot"></span>CONNECTED</span>
+          <span class="st-host">mc.hypixel.net</span>
+          <span class="sep"></span>
+          <span class="st-ping">PING 42ms</span>
+          <span class="sep"></span>
+          <span class="st-fps">FPS 240</span>
+          <div class="right">
+            <span>ACTIVE <b id="statEnabled">0</b>/<span id="statTotal">0</span></span>
+            <span class="sep"></span>
+            <span id="statKey">TOGGLE [SHIFTRIGHT]</span>
+          </div>
+        </footer>
+      </main>
+
+      <!-- ============ theme customizer popover ============ -->
+      <div class="theme-panel" id="themePanel" role="dialog" aria-label="Theme customizer">
+        <h4>Theme Customizer</h4>
+        <div class="sub">Accent colour applies instantly to the whole client.</div>
+        <div class="preset-grid" id="presetGrid"></div>
+        <div class="theme-custom">
+          <span class="label">Custom colour</span>
+          <div class="color-field">
+            <button class="color-swatch" id="customSwatch" style="background:#a855f7">
+              <input type="color" id="customColor" value="#a855f7" aria-label="Custom accent colour" />
+            </button>
+            <span class="color-hex" id="customHex">#A855F7</span>
+          </div>
+        </div>
+        <div class="theme-slider-row">
+          <div class="head"><span>Glow intensity</span><span class="value" id="glowVal" style="font-family:var(--mono);font-size:10px;color:var(--accent)">70%</span></div>
+          <input type="range" id="glowRange" min="0" max="100" step="5" value="70" />
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="toasts" id="toasts" aria-live="polite"></div>
+
+  <script src="icons.js"></script>
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
