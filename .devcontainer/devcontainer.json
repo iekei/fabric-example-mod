@@ -1,0 +1,17 @@
+{
+  "name": "Minecraft Modding VNC",
+  "image": "mcr.microsoft.com/devcontainers/java:17",
+  "features": {
+    "ghcr.io/devcontainers/features/desktop-lite:1": {
+      "password": "vncpassword"
+    }
+  },
+  "forwardPorts": [6080],
+  "portsAttributes": {
+    "6080": {
+      "label": "VNC Desktop",
+      "onAutoForward": "openPreview"
+    }
+  },
+  "postCreateCommand": "chmod +x gradlew"
+}
